@@ -2,6 +2,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import FormBadge from "./features/FormBadge";
 import Badge from "./features/Badge";
 import AppLayout from "./ui/AppLayout";
+// import { Provider } from "react-redux";
+// import store from "./store/formStore";
 
 const router = createBrowserRouter([
   {
