@@ -35,9 +35,10 @@ function Badge({ data, image, setOpen }) {
   }
   async function handleDownloadPDF() {
     const badgeElement = document.getElementById("badge");
+    // badgeElement.style.transform = "rotate(90deg)";
     const canvas = await html2canvas(badgeElement);
     const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
+    const pdf = new jsPDF("landscape");
     // pdf.addImage(imgData, "PNG", 0, 0, , , , , 90);
     pdf.addImage({
       imageData: imgData,
@@ -51,7 +52,7 @@ function Badge({ data, image, setOpen }) {
     <div>
       <div
         id="badge"
-        className="shdw  relative h-[563px] w-[994px] space-y-10 overflow-hidden rounded-[20px] bg-main-white px-[38px] py-[28px]"
+        className="shdw  relative h-[563px] w-[900px] space-y-10 overflow-hidden rounded-[20px] bg-main-white px-[38px] py-[28px]"
       >
         <img src={logo} />
         <div className="shdw absolute left-0 right-0 z-10 mx-[38px] flex h-[309] items-center justify-between rounded-[10px] border border-main-two bg-main-white p-8">
