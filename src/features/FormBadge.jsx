@@ -99,6 +99,7 @@ function FormBadge() {
                   })}
                   onChange={(e) => setImageSrc(e.target.files[0])}
                   className="hidden"
+                  accept="image/png, image/jpeg, image/jpg"
                 />
                 <div className="flex flex-col items-center justify-center gap-1">
                   {imageSrc ? (
