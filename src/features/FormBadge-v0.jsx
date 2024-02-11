@@ -1,25 +1,54 @@
-import Input from "../ui/Input";
+import Input from "../ui/Input.jsx";
 import image from "../assets/image-1.webp";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
+import { firebaseConfig } from "../Firebase/firebase.config.js";
 import Badge from "./Badge.jsx";
 import { twMerge } from "tailwind-merge";
+//initialing firebase
+firebase.initializeApp(firebaseConfig);
 
 function FormBadge() {
   const [formData, setFormData] = useState({});
   const [imageSrc, setImageSrc] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
+  var storage = firebase.storage();
+  var storageRef = storage.ref();
+
   const onSubmit = (data) => {
+    const path = "imageSrc/" + imageSrc.name;
+    const file = imageSrc;
+    const uploadTask = storageRef.child(path).put(file);
+
+    uploadTask.on(
+      "state_changed",
+      function (snapshot) {
+        // Handle progress, such as displaying a progress bar
+        console.log(snapshot);
+      },
+      function (error) {
+        // Handle unsuccessful uploads
+        console.error("Upload failed:", error);
+      },
+    );
+
+    uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+      if (downloadURL) {
+        setImageUrl(downloadURL);
+        console.log(downloadURL);
+      }
+    });
+
     setFormData(data);
-    reset();
-    setImageSrc(null);
     setOpen(true);
   };
 
@@ -27,11 +56,11 @@ function FormBadge() {
     <>
       <div
         className={twMerge(
-          "bg-grey-200/10 fixed inset-0 z-20 flex flex-col items-center justify-center overflow-auto backdrop-blur-md",
+          "bg-grey-200/10 fixed inset-0 z-20 flex items-center justify-center backdrop-blur-md",
           `${open ? "scale-100" : "scale-0"}`,
         )}
       >
-        <Badge data={formData} image={imageSrc} setOpen={setOpen} />
+        <Badge data={formData} image={imageSrc} />
       </div>
 
       <div className="shdw relative max-w-3xl overflow-hidden rounded-[20px]">
@@ -95,7 +124,7 @@ function FormBadge() {
                   type="file"
                   name="image"
                   {...register("image", {
-                    required: "Selectionnez votre photo!",
+                    required: "Upload your profile picture!",
                   })}
                   onChange={(e) => setImageSrc(e.target.files[0])}
                   className="hidden"
@@ -145,7 +174,7 @@ function FormBadge() {
                         </span>
                       ) : (
                         <span className="text-lg font-medium text-txt-grey  ">
-                          Votre Photo
+                          Upload Picture
                         </span>
                       )}
                     </>
@@ -154,7 +183,7 @@ function FormBadge() {
               </label>
             </div>
             <button className="mt-9 flex items-center justify-center gap-4 self-end rounded-[10px] bg-main-one px-8 py-[18px] text-main-bg duration-150 hover:bg-main-two">
-              <span className="text-xl font-semibold">Prend Ton Badge</span>
+              <span className="text-xl font-semibold">Take Badge</span>
               <svg
                 width="9"
                 height="15"
