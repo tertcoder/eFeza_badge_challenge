@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 
-function AgentInfo({ label, value }) {
+function AgentInfo({ label = null, value = null }) {
   return (
     <div>
-      <span className="text-sm-grey text-lg font-semibold">{label}</span>
-      <h3 className="text-2xl font-bold text-main-two">{value}</h3>
+      <span className="text-lg font-semibold text-sm-grey">{label ?? ""}</span>
+      <h3 className="text-2xl font-bold text-main-two">{value ?? ""}</h3>
     </div>
   );
 }

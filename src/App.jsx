@@ -1,28 +1,11 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import FormBadge from "./features/FormBadge";
-import Badge from "./features/Badge";
-import AppLayout from "./ui/AppLayout";
-// import { Provider } from "react-redux";
-// import store from "./store/formStore";
-
-const router = createBrowserRouter([
-  {
-    element: <AppLayout />,
-    children: [
-      {
-        element: <FormBadge />,
-        path: "/",
-      },
-      {
-        element: <Badge />,
-        path: "/badge",
-      },
-    ],
-  },
-]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-main-bg py-20">
+      <FormBadge />
+    </div>
+  );
 }
 
 export default App;
