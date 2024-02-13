@@ -11,6 +11,7 @@ export default {
         "input-bg": "#FAFAFA",
         "main-one": "#409FD9",
         "main-two": "#083553",
+        "main-three": "#1C81C5",
       },
       fontFamily: {
         nunito: ["Nunito, sans-serif"],
