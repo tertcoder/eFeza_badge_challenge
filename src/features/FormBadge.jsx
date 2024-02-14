@@ -1,8 +1,12 @@
 import Input from "../ui/Input.jsx";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { next } from "./progressSlice.js";
+import { updateState } from "./formDataSlice.js";
 
 function FormBadge() {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const [imageSrc, setImageSrc] = useState(null);
   const {
@@ -13,7 +17,10 @@ function FormBadge() {
   } = useForm();
 
   const onSubmit = (data) => {
+    data = { ...data, image: imageSrc };
     setFormData(data);
+    dispatch(updateState(data));
+    dispatch(next());
     reset();
     setImageSrc(null);
   };

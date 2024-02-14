@@ -1,21 +1,18 @@
+import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
-import PropTypes from "prop-types";
 
-function ProgressBar({ progress }) {
+function ProgressBar() {
+  const progress = useSelector((state) => state.progress.value);
   return (
     <div className="h-[6px] w-full rounded-full border border-main-one/30">
       <div
         className={twMerge(
-          "block h-full rounded-full bg-main-one duration-300",
-          `w-[${progress[0]}%]`,
+          "block h-full  rounded-full bg-main-one duration-300",
+          `${progress === 0 ? "w-1/2" : "w-full"}`,
         )}
       ></div>
     </div>
   );
 }
-
-ProgressBar.propTypes = {
-  progress: PropTypes.array.isRequired,
-};
 
 export default ProgressBar;
