@@ -7,7 +7,7 @@ function Input({ placeholder, register, errors }) {
         {...register}
         type={"text"}
         placeholder={placeholder}
-        className="form-shdw w-full rounded-[10px] bg-input-bg px-[14px] py-4 text-lg font-medium text-main-two outline-main-one placeholder:text-lg placeholder:font-medium placeholder:text-txt-grey"
+        className="form-shdw w-full rounded-[10px] border-2 border-transparent bg-input-bg px-[14px] py-4 text-lg font-medium text-main-two outline-none duration-150 placeholder:text-lg  placeholder:font-medium placeholder:text-txt-grey focus:border-main-one"
       />
       {errors && <span className="text-sm text-red-500">*{errors}</span>}
     </div>
