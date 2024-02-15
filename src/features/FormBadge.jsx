@@ -87,7 +87,7 @@ function FormBadge() {
 
         <label
           className={twMerge(
-            " col-span-2 flex h-36 items-center justify-center duration-150 ",
+            "col-span-2 flex h-36 cursor-pointer items-center justify-center duration-150 ",
             `${!imageSrc && "form-shdw rounded-[10px] bg-input-bg"}`,
           )}
         >
