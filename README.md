@@ -18,7 +18,7 @@ Check out the [Figma UI Design](https://www.figma.com/file/iW0FSAV4pv6xpwMmafEv9
 
 ## Live Demo
 
-You can try out the live demo of the application [here](https://efeza-superagent-badge.netlify.app/).
+You can try out the live demo of the application [here](https://efeza-badge.netlify.app/).
 
 ## Getting Started
 
