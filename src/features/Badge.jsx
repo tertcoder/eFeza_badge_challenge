@@ -10,17 +10,22 @@ import blocksLine from "../assets/block-line.png";
 import biglines from "../assets/big-lines.png";
 import logo from "../assets/eFeza.png";
 import biglogo from "../assets/big-logo.png";
+import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 function Badge() {
   const { nom, prenom, telephone, code, image } = useSelector(
     (state) => state.formData,
   );
-  const imagePreview = `${image}`;
-  console.log(imagePreview);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDownloadingImg, setIsDownloadingImg] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const imagePreview = `${image}`;
 
   async function handleImageDownload() {
+    setIsLoading(true);
+    setIsDownloadingImg(true);
     const badgeElement = document.getElementById("badge");
-
     const canvas = await html2canvas(badgeElement);
     const data = canvas.toDataURL("image/png");
     const link = document.createElement("a");
@@ -30,14 +35,20 @@ function Badge() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    setIsLoading(false);
+    setIsDownloadingImg(false);
   }
   async function handleDownloadPDF() {
+    setIsLoading(true);
+    setIsDownloadingPdf(true);
     const badgeElement = document.getElementById("badge");
     const canvas = await html2canvas(badgeElement, { scale: 4 });
     const pdf = new jsPDF("portrait", "mm", [210, 297]);
     const imgData = canvas.toDataURL("image/png");
     pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
     pdf.save(`${nom.trim()}-badge.pdf`);
+    setIsLoading(false);
+    setIsDownloadingPdf(false);
   }
 
   return (
@@ -108,7 +119,14 @@ function Badge() {
               Vous pouvez telecharger votre badge:
             </h3>
             <div className="flex gap-8">
-              <button onClick={handleImageDownload}>
+              <button
+                disabled={isLoading}
+                onClick={handleImageDownload}
+                className={twMerge(
+                  "space-y-2",
+                  `${isLoading && "cursor-not-allowed opacity-70"}`,
+                )}
+              >
                 <svg
                   width="48"
                   height="48"
@@ -134,11 +152,27 @@ function Badge() {
                   />
                 </svg>
 
-                <span className="text-lg font-semibold text-main-two underline">
-                  Image
-                </span>
+                {isDownloadingImg ? (
+                  <div className="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                ) : (
+                  <span className="text-lg font-semibold text-main-two underline">
+                    Image
+                  </span>
+                )}
               </button>
-              <button onClick={handleDownloadPDF}>
+              <button
+                disabled={isLoading}
+                onClick={handleDownloadPDF}
+                className={twMerge(
+                  "space-y-2",
+                  `${isLoading && "cursor-not-allowed opacity-70"}`,
+                )}
+              >
                 <svg
                   width="48"
                   height="48"
@@ -166,9 +200,18 @@ function Badge() {
                   />
                 </svg>
 
-                <span className="text-lg font-semibold text-main-two underline">
-                  Pdf
-                </span>
+                {isDownloadingPdf ? (
+                  <div className="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                ) : (
+                  <span className="text-lg font-semibold text-main-two underline">
+                    Pdf
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -182,7 +225,7 @@ function Badge() {
       </div>
       <div
         id="badge"
-        className="form-shdw absolute -left-full top-0 -z-10 h-[1123px] w-[794px] -translate-x-full overflow-hidden rounded-[10px] bg-main-one"
+        className="form-shdw absolute -left-[9999px] top-0 -z-10 h-[1123px] w-[794px] overflow-hidden rounded-[10px] bg-main-one"
       >
         <div className="relative h-[436px] w-full bg-main-white">
           <img
